@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 workos.api_key = os.getenv('WORKOS_API_KEY')
 workos.project_id = os.getenv('WORKOS_PROJECT_ID')
-workos.base_api_url = 'http://localhost:7000/' if DEBUG else workos.base_api_url
+workos.base_api_url = workos.base_api_url
 
 # There'd realistically be persons with different domains trying to sign in,
 # where some may have SSO and some may not. This example assumes only workos.com
@@ -37,4 +37,4 @@ def auth_callback():
     code = request.args.get('code')
     profile = workos.client.sso.get_profile(code)
 
-    return profile.to_dict()
+    return render_template('callback.html', pass_me = profile.to_dict())
